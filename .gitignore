@@ -5,7 +5,7 @@ backend/env
 backend/flask_session
 backend/__pycache__
 backend/test
-frontend/src/components/chat.js
+
 load.sh
 
 
