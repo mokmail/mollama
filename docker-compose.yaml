@@ -8,8 +8,8 @@ services:
     environment:
       - OLLAMA_HOST=http://0.0.0.0:11438
     network_mode: "host"
-    ports:
-      - "11438:11438"
+    # ports:
+    #   - "11438:11438"
     container_name: mollama
     volumes:
       - mollama:/app
@@ -18,8 +18,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     network_mode: "host"
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
     command: python3 app.py
     container_name: flask
     volumes:
@@ -31,9 +31,10 @@ services:
       build:
         context: ./frontend
         dockerfile: Dockerfile
+      network_mode: "host"
     
-      ports:
-        - "3000:3000"
+      # ports:
+      #   - "3000:3000"
       volumes:
         - moreact:/app
 
