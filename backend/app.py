@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 # Session(app)
 # app.secret_key = "history"
-CORS(app )
+CORS(app ,  supports_credentials=True)
 # Function to interact with the model
 
 history =[]
@@ -62,7 +62,7 @@ def chat_with_model():
     def generate_response(history):
         try:
             # Send POST request to the model API
-            url = "http://127.0.0.1:11438/api/chat"  # Replace with your API endpoint
+            url = "http://localhost:11438/api/chat"  # Replace with your API endpoint
             with requests.post(url, data=json.dumps(payload), headers=headers, stream=True) as response:
                 temp_content= ""
                 if response.status_code == 200:
