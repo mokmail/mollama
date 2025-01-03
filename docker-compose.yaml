@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  mollama:
+    build:
+      context: ./mollama
+      dockerfile: Dockerfile
+    environment:
+      - OLLAMA_HOST=http://0.0.0.0:11438
+    network_mode: "host"
+    container_name: mollama
+    volumes:
+      - mollama:/app
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    network_mode: "host"
+    command: python3 app.py
+    container_name: flask
+    volumes:
+      - moflask:/app
+    depends_on:
+      - mollama
+
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      ports:
+        - "3000:3000"
+      volumes:
+        - moreact:/app
+
+      container_name: react
+      depends_on:
+        - backend
+        
+        
+volumes:
+  mollama:
+  moflask:
+  moreact:
+    
+    
+  
