@@ -118,7 +118,7 @@ const ChatWithModelUpdate = () => {
                 {chatHistory.map((entry, index) => (
                     <div
                         key={index}
-                        className={` break-all w-fit p-4 m-auto hover:border my-2 rounded-xl  hover:bg-slate-50   duration-300 ${entry.type === 'question' ? 'bg-blue-50 text-left rounded-tl-none ml-0  ' : 'bg-slate-100 text-left items-end mr-0 justify-end  rounded-tr-none '}`}
+                        className={` break-words  p-4 m-auto  my-2 rounded-xl  hover:bg-slate-50   duration-300 ${entry.type === 'question' ? 'bg-blue-50 text-left rounded-tl-none ml-0  ' : 'bg-slate-100 text-left items-end mr-0 justify-start w-fit rounded-tr-none '}`}
                     >
                         <div className='text-wrap'>
                             <CopyButton text={entry.text} />
