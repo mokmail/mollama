@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Model</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col justify-center items-center h-full">
+    <h1>Chat with the Story Writer Model</h1>
+    <form method="POST">
+        <label for="question">Your Question:</label><br>
+        <textarea id="question" name="question" rows="4" cols="50" placeholder="Ask the model a question..."></textarea><br><br>
+        <select name="language" id="language">
+            <option value="english">English</option>
+            <option value="german">German</option>
+            <option value="arabic">Arabic</option>
+            </select>
+          
+        <button class="bg-blue-500 p-3 text-slate-50" type="submit">Submit</button>
+    </form>
+
+    <div id="response" class="flex  justify-center items-center m-auto w-9/12 "> 
+        <h2>Response:</h2>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        // Handle form submission and stream response
+        const form = document.querySelector("form");
+        const output = document.getElementById("output");
+        output.classList.add("bg-gray-100", "p-4", "rounded" , "w-1/2");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(form);
+            const question = formData.get("question");
+            const language = formData.get("language");
+
+            output.textContent = ""; // Clear previous output
+
+            const response = await fetch("/", {
+                method: "POST",
+                body: formData,
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break; // Stop reading when done
+                output.textContent += decoder.decode(value);
+            }
+        });
+    </script>
+</body>
+</html>

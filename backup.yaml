@@ -20,28 +20,29 @@ services:
     network_mode: "host"
     # ports:
     #   - "5000:5000"
-    command: python3 app.py
+    #command: python3 app.py
     container_name: flask
     volumes:
       - moflask:/app
     depends_on:
       - mollama
+    command: python3 app.py
 
   frontend:
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      network_mode: "host"
+    build:    
+      context: ./frontend
+      dockerfile: Dockerfile
+    network_mode: "host"
     
       # ports:
       #   - "3000:3000"
-      volumes:
-        - moreact:/app
+    volumes:
+      - moreact:/app
 
-      container_name: react
-      depends_on:
-        - backend
-        - mollama
+    container_name: react
+    depends_on:
+      - backend
+      - mollama
         
         
 volumes:

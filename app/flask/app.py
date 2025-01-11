@@ -97,43 +97,5 @@ def clear_history():
     # Remove history from the session
     return jsonify({"message": f"History cleared! {history}"}), 200
 
-
-
-@app.route('/run-command', methods=['POST'])
-def run_command():
-    # Get the command from the request
-    data = request.json
-    command = data.get('command')
-
-    if not command:
-        
-        return jsonify({'error': 'No command provided'}), 400
-
-    try:
-        commands = [i for i in command.split(' ') if i != '']
-        # Run the command using subprocess
-        result = subprocess.run(commands, capture_output=True, text=True)
-        print(commands)
-
-        # Return the output and error
-        return jsonify({
-            'stdout': result.stdout,
-            'stderr': result.stderr,
-            'returncode': result.returncode
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/docker', methods=['POST'])
-def dockers():
-    data = request.json
-    containername = data.get('containername')
-    client = docker.from_env()
-    containers = client.containers.get(containername)
-    print(containername)
-    return jsonify({'containers': containers.attrs})
-        
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

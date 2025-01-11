@@ -1,0 +1,45 @@
+version: '3.9'
+services:
+  xollama:
+    build:
+      context: ./xollama
+      dockerfile: Dockerfile
+    environment:
+      - OLLAMA_HOST=http://0.0.0.0:11435
+    network_mode: "host"
+    container_name: xollama
+    volumes:
+      - xollama:/app
+  xflask:
+    build:
+      context: ./xflask
+      dockerfile: Dockerfile
+    network_mode: "host"
+    command: python3 app.py
+    container_name: xflask
+    volumes:
+      - xflask:/app
+    depends_on:
+      - xollama
+    command: python3 app.py
+
+  xreact:
+    build:    
+      context: ./xreact
+      dockerfile: Dockerfile
+    network_mode: "host"
+
+    volumes:
+      - xreact:/app
+
+    container_name: xreact
+    depends_on:
+      - xflask
+      - xollama
+        
+        
+volumes:
+  xollama:
+  xflask:
+  xreact:
+    
